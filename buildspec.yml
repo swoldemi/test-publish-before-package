@@ -10,14 +10,8 @@ phases:
       golang: 1.14
     commands:
       - pip3 install -U aws-sam-cli
-      - mkdir -p $ROOTPATH
-      - go mod tidy && go mod download
-      - ln -s "${CODEBUILD_SRC_DIR}" $ROOTPATH
 
   build:
     commands:
-      - make build && make sam-package
-
-  post_build:
-    commands:
+      - make sam-package
       - chmod +x ./publish.sh && ./publish.sh
