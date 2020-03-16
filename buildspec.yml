@@ -13,5 +13,4 @@ phases:
 
   build:
     commands:
-      - make sam-package
       - chmod +x ./publish.sh && ./publish.sh
