@@ -1,0 +1,23 @@
+version: 0.2
+env:
+  variables:
+    GOPATH: /go
+    GOBIN: /go/bin
+    ROOTPATH: /go/src/github.com/swoldemi/test-publish-before-package
+phases:
+  install:
+    runtime-versions:
+      golang: 1.14
+    commands:
+      - pip3 install -U aws-sam-cli
+      - mkdir -p $ROOTPATH
+      - go mod tidy && go mod download
+      - ln -s "${CODEBUILD_SRC_DIR}" $ROOTPATH
+
+  build:
+    commands:
+      - make build && make sam-package
+
+  post_build:
+    commands:
+      - chmod +x ./publish.sh && ./publish.sh
